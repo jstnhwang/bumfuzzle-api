@@ -7,7 +7,7 @@ class Question(models.Model):
     category = models.CharField("Category", max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.description
