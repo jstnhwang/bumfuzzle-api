@@ -24,20 +24,13 @@ def rooms(request):
             return JsonResponse({"id": serializer.data["id"]}, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-    # elif request.method == 'DELETE':
-    #     Questions.objects.all().delete()
-    #     return JsonResponse({"result": "success"})
-@api_view(["GET", "POST"])
+    elif request.method == 'DELETE':
+        Room.objects.all().delete()
+        return JsonResponse({"result": "success"})
+
+@api_view(["GET"])
 def room(request, pk):
     if request.method == 'GET':
         room = Room.objects.get(pk=pk)
         serializer = RoomSerializer(room)
         return JsonResponse(serializer.data, safe=False)
-    
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = RoomSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
