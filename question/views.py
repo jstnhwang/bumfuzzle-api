@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from .models import Question
 from .serializers import QuestionSerializer
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST', 'DELETE'])
 def questions(request):
     if request.method == 'GET':
         questions = Question.objects.all()
@@ -19,6 +19,10 @@ def questions(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+    
+    elif request.method == 'DELETE':
+        Question.objects.all().delete()
+        return JsonResponse({"result": "success"})
 
 @api_view(['GET', 'DELETE'])
 def question(request, pk):
